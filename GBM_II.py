@@ -272,8 +272,6 @@ model = 2
 
 tMax=1000
 xMax=1200
-plot_3D(A, B, C,  model, Dp, Dh, tMax, xMax, dx, dt, K=K, m=m)
-
 plot_time_series(A, B, C, model, K=K, m=m)
 
 t=850
@@ -287,3 +285,4 @@ plot_temporal_dynamics(x, dx, A, B, C, model, Dp, Dh, tmax, dt, K=K, m=m)
 t=1200
 plot_state_space(t, dt, A, B, C,  model, Dp, Dh, xMax, dx,)
 
+plot_3D(A, B, C,  model, Dp, Dh, tMax, xMax, dx, dt, K=K, m=m)
