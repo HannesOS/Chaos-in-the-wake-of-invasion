@@ -2,11 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import *
 
+'-------------------------------------------------------------------------------------------------------------------'
 '''
-With the following code we can solve the reaction-diffusion equation system put forward by Sherratt 
+With the following code we can solve the reaction-diffusion equation system put forward by Sherratt
 in his paper 'Ecological chaos in the wake of invasion' from 1993. Additionally, one can make use of this code to
 produce supplementary results that were not considered in the paper.
 '''
+'-------------------------------------------------------------------------------------------------------------------'
+
 
 def fp(p, h, A, B, C, K, m, model=1):
     '''
@@ -15,16 +18,14 @@ def fp(p, h, A, B, C, K, m, model=1):
     :param A: model parameter
     :param B: model parameter
     :param C: model parameter
-    :param model: 1 for equation 2 and 2 for equation 3 from Sherrats paper. 3 for Rosenzweig Macarthur model with Holling type 2
+    :param model: 1 for equation 2 and 2 for equation 3 from Sherrats paper.
+        3 for Rosenzweig Macarthur model with Holling type 2 functional response
     :return: Predator reaction term
     '''
-    if(model == 1):
-        fp = B * p * (1 - p / h)
-    if(model == 2):
-        fp = B * p * (A - 1 - A * np.exp(-C * h))
-    if(model == 3):
-        fp = B * h /(C + h) * p - m * p
-    return fp
+    predator_model = {1 : B * p * (1 - p / h),
+                  2 : B * p * (A - 1 - A * np.exp(-C * h)),
+                  3 : B * h / (C + h) * p - m * p}
+    return predator_model.get(model, "Invalid model")
 
 
 def fh(p, h, A, B, C, K, m, model=1):
@@ -32,13 +33,10 @@ def fh(p, h, A, B, C, K, m, model=1):
     Prey reaction term
     see function fp
     '''
-    if(model == 1):
-        fh = h * (1 - h) - A * h * p / (h + C)
-    if(model == 2):
-        fh = h * (1 - h) - p * (1 - np.exp(-C * h))
-    if(model == 3):
-        fh = A * h * (1 - h / K) - B * h /(C + h) * p
-    return fh
+    prey_model = {1 : h * (1 - h) - A * h * p / (h + C),
+                  2 : h * (1 - h) - p * (1 - np.exp(-C * h)),
+                  3 : A * h * (1 - h / K) - B * h /(C + h) * p}
+    return prey_model.get(model, "Invalid model")
 
 def differential_equation_systems(t, x, A, B, C, K=1, m=1, model=1):
     '''
