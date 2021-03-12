@@ -11,6 +11,7 @@ Additionally, one can make use of this code to produce supplementary results tha
 '----------------------------------------------------------------------------------------------------------------------'
 
 
+
 def fp(p, h, A, B, C, K, m, model=1):
     """
     :param p: predator population size
@@ -121,9 +122,9 @@ def plot_spatial_dynamics(t, dt, A, B, C, model, Dp, Dh, xMax, dx, K=1, m=1, plo
     results = odeint(predator_prey_model, y0, ts, args=(A, B, C, K, m, model, Dp, Dh, dx), ml=2, mu=2)
     plt.figure(dpi=150, figsize=[7, 4.2])
     if t < 1:
-        plt.plot(xs, y0[1::2], color="royalblue")
+        plt.plot(xs, y0[1::2], color="green")
     else:
-        plt.plot(xs, results[int((t - tmin) / dt) - 1][1::2], color="royalblue", label="Prey")
+        plt.plot(xs, results[int((t - tmin) / dt) - 1][1::2], color="green", label="Prey")
     plt.xlim(0, xMax)
     plt.xlabel("$x$", fontsize=12)
     plt.ylabel("Prey", fontsize=12)
@@ -135,9 +136,9 @@ def plot_spatial_dynamics(t, dt, A, B, C, model, Dp, Dh, xMax, dx, K=1, m=1, plo
     if plotPredator:
         plt.figure(dpi=150, figsize=[7, 4.2])
         if t < 1:
-            plt.plot(xs, y0[::2], color="orange")
+            plt.plot(xs, y0[::2], color="green")
         else:
-            plt.plot(xs, results[int((t - tmin) / dt) - 1][::2], color="orange", label="Predator")
+            plt.plot(xs, results[int((t - tmin) / dt) - 1][::2], color="crimson", label="Predator")
         plt.xlim(0, xMax)
         plt.xlabel("$x$", fontsize=12)
         plt.ylabel("Predator", fontsize=12)
@@ -175,7 +176,7 @@ def plot_temporal_dynamics(x, dx, A, B, C, model, Dp, Dh, tMax, dt, K=1, m=1, pl
     prey_results = [item[1::2] for item in results]
     prey_results_at_x = [item[-1] for item in prey_results]
     plt.figure(dpi=150)
-    plt.plot(ts, prey_results_at_x, color="royalblue")
+    plt.plot(ts, prey_results_at_x, color="green")
     plt.xlim(10, tMax)
     plt.xlabel("$t$", fontsize=12)
     plt.ylabel("Prey", fontsize=12)
@@ -185,7 +186,7 @@ def plot_temporal_dynamics(x, dx, A, B, C, model, Dp, Dh, tMax, dt, K=1, m=1, pl
         plt.savefig("temporal_prey_t" + str(t))
     if plotPredator:
         plt.figure(dpi=150)
-        plt.plot(ts, results[::2][int(x / 2)], color="orange")
+        plt.plot(ts, results[::2][int(x / 2)], color="crimson")
         plt.xlim(0, xMax)
         plt.xlabel("$x$", fontsize=12)
         plt.ylabel("Predator", fontsize=12)
@@ -218,7 +219,7 @@ def plot_state_space(t, dt, A, B, C, model, Dp, Dh, xMax, dx, K=1, m=1, saveFig=
     print("\rPlotting state space... done")
 
 
-def plot_3D(A, B, C, model, Dp, Dh, tMax, xMax, dx, dt, K=1, m=1, tMin=0, xMin=0, nAngles=3, saveFig=False):
+def plot_3D(A, B, C, model, Dp, Dh, tMax, xMax, dx, dt, K=1, m=1, tMin=0, xMin=0, nAngles=3):
     """
     Plots the prey population size in dependence of time and space from nAngles different angles.
     See other methods for documentation.
@@ -236,7 +237,7 @@ def plot_3D(A, B, C, model, Dp, Dh, tMax, xMax, dx, dt, K=1, m=1, tMin=0, xMin=0
         hf = plt.figure(dpi=150, figsize=[9, 6.8])
         ha = hf.add_subplot(111, projection='3d')
         X, Y = np.meshgrid(ts, xs)
-        ha.plot_surface(Y.T, X.T, prey_results, color="C0")
+        ha.plot_surface(Y.T, X.T, prey_results, color="violet")
         ha.set_xlabel("$x$", fontsize=14)
         ha.set_ylabel("$t$", fontsize=14)
         ha.set_zlabel("Prey population", fontsize=14)
@@ -244,8 +245,6 @@ def plot_3D(A, B, C, model, Dp, Dh, tMax, xMax, dx, dt, K=1, m=1, tMin=0, xMin=0
         ha.elev = 40
         ha.azim = azim
         hf.show()
-        if saveFig:
-            plt.savefig("3D_AZIM" + str(azim))
     print("\rCreating 3D plot... done")
 
 
@@ -258,16 +257,16 @@ def plot_time_series(A, B, C, model, K=1, m=1, dt=0.05, p0=0.5, h0=0.5, tMin=0, 
     print("Plotting time series without diffusion...", end="")
     results = solve_ivp(differential_equation_systems, (tMin, tMax), [p0, h0], args=[A, B, C, K, m, model], max_step=dt)
     plt.figure(dpi=140)
-    plt.plot(results.t, results.y[0], linewidth=2, color="orange")
-    plt.xlabel("Time, $t$", fontsize=14)
-    plt.ylabel("Predator concentration", fontsize=14)
+    plt.plot(results.t, results.y[0], linewidth=2, color="crimson")
+    plt.xlabel("Time, $t$", fontsize=13)
+    plt.ylabel("Predator concentration", fontsize=13)
     plt.show()
     if saveFig:
         plt.savefig("predator_timeSeries")
     plt.figure(dpi=140)
-    plt.plot(results.t, results.y[1], linewidth=2, color="royalblue")
-    plt.xlabel("Time, $t$", fontsize=14)
-    plt.ylabel("Prey concentration", fontsize=14)
+    plt.plot(results.t, results.y[1], linewidth=2, color="green")
+    plt.xlabel("Time, $t$", fontsize=13)
+    plt.ylabel("Prey concentration", fontsize=13)
     plt.show()
     if saveFig:
         plt.savefig("prey_timeSeries")
