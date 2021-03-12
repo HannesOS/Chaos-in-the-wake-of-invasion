@@ -5,8 +5,8 @@ from scipy.integrate import *
 '-------------------------------------------------------------------------------------------------------------------'
 '''
 With the following code we can solve the reaction-diffusion equation system put forward by Sherratt
-in his paper 'Ecological chaos in the wake of invasion' from 1993. Additionally, one can make use of this code to
-produce supplementary results that were not considered in the paper.
+in his paper 'Ecological chaos in the wake of invasion' from 1993 (doi: 10.1073/pnas.92.7.2524).
+Additionally, one can make use of this code to produce supplementary results that were not considered in the paper.
 '''
 '-------------------------------------------------------------------------------------------------------------------'
 
